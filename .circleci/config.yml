@@ -18,7 +18,8 @@ commands:
     steps:
       - run: ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
       - run: apt update
-      - run: apt install -y git cmake mesa-common-dev libdbus-1-dev
+      - run: apt install -y git cmake mesa-common-dev
+      - run: apt -y upgrade
       - checkout
       - run: git submodule update --init --recursive
       - restore_cache_cmd

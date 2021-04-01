@@ -19,6 +19,7 @@
     * [miner_pausegpu](#miner_pausegpu)
     * [miner_setverbosity](#miner_setverbosity)
     * [miner_setnonce](#miner_setnonce)
+    * [miner_getnonce](#miner_getnonce)
 
 ## Introduction
 
@@ -97,6 +98,7 @@ This shows the API interface is live and listening on the configured endpoint.
 | [miner_pausegpu](#miner_pausegpu) | Pause/Start mining on specific GPU | Yes
 | [miner_setverbosity](#miner_setverbosity) | Set console log verbosity level | Yes
 | [miner_setnonce](#miner_setnonce) | Sets the miner's start nonce | Yes
+| [miner_getnonce](#miner_getnonce) | Gets miner's start nonce | no
 
 ### api_authorize
 
@@ -198,7 +200,8 @@ and expect back a response like this:
           "sensors": [                                  // An array made of ...
             47,                                         //  + Detected temp
             70,                                         //  + Fan percent
-            0                                           //  + Power drain in watts
+            0,                                          //  + Power drain in watts
+            55                                          //  + Detected memory temp
           ],
           "type": "GPU"                                 // Device Type : "CPU" / "GPU" / "ACCELERATOR"
         },
@@ -275,7 +278,8 @@ and expect back a response like this:
     "off;off;off;off;off;off",              // Detailed DCR hashrate in KH/s per GPU (not used)
     "53;90;50;90;56;90;58;90;61;90;60;90",  // Temp and fan speed pairs per GPU
     "eu1.ethermine.org:4444",               // Mining pool currently active
-    "0;0;0;0"                               // ETH invalid shares, ETH pool switches, DCR invalid shares, DCR pool switches
+    "0;0;0;0",                              // ETH invalid shares, ETH pool switches, DCR invalid shares, DCR pool switches
+    "0;59;68"                               // Memory temp per GPU, 0 if unavailable
   ]
 }
 ```
@@ -546,5 +550,27 @@ and expect a result like this:
   "id": 1,
   "jsonrpc": "2.0",
   "result": true
+}
+```
+
+### miner_getnonce
+
+Set the miner's start nonce. Can be useful in avoiding search range overlaps in multi-miner situations.
+
+```js
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "miner_getnonce"
+}
+```
+
+and expect a result like this:
+
+```js
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "123"
 }
 ```
